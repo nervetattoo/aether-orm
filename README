@@ -1,1 +1,24 @@
 Experimental ORM - without the O!
+Some examples of wanted behaviour for fetching data:
+(Note, NO OTHER CODE THAN THIS SHALL BE NEEDED)
+1: Define some sort of config stating how to connect to databases
+$db['foo']->Foo(); <- Return a Table resource of type Foo (dynamical set class?)
+$db['foo']->Foo(1); or Foo("id = 1"); <- Return a single Row resource of type Foo (dynamicaly set classes?)
+$db['foo']->Foo("title ~= /[a-z]*/"); <- Return a Set resource of type FooSet or something.
+
+Update a table (remember, just ideas here):
+$db['foo']->Foo(1)->title = 'Hello world'; <- Either simply save at this point or:
+$db['foo']->Foo(1)->save(); <- Save now. Unsure about which
+
+
+Obvious needs in terms of concepts:
+Adapter
+QueryBuilder
+CriteriaParser <- Criteria passed to methods of type "title ~= /regex/"
+Database <- The concept of a database: $db['foo'] <- Database object
+Table <- When a full table is queried
+Set <- Several records but not a full table (Do we need to differentiate these?)
+Record <- Single record
+IdentityMap <- Keep track of all loaded records and sets
+Scheme <- Table scheme
+SchemeParser <- Parse the scheme of a table to create the in memory model. Adapter specific?
