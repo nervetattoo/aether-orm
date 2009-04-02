@@ -38,7 +38,7 @@ class AetherDatabaseMysqlDriver extends AetherDatabaseDriver {
 		$this->fields_cache = array();
 
         // FIX
-		Kohana::log('debug', 'MySQL Database Driver Initialized');
+		//Kohana::log('debug', 'MySQL Database Driver Initialized');
 	}
 
 	/**
@@ -92,7 +92,7 @@ class AetherDatabaseMysqlDriver extends AetherDatabaseDriver {
 			if (!isset(self::$query_cache[$hash])) {
 				// Set the cached object
 				self::$query_cache[$hash] = 
-                    new Mysql_Result(mysql_query($sql, $this->link), 
+                    new AetherMysqlResult(mysql_query($sql, $this->link), 
                                      $this->link, $this->db_config['object'], $sql);
 			}
 			else {
@@ -104,7 +104,7 @@ class AetherDatabaseMysqlDriver extends AetherDatabaseDriver {
 			return self::$query_cache[$hash];
 		}
 
-		return new Mysql_Result(mysql_query($sql, $this->link), 
+		return new AetherMysqlResult(mysql_query($sql, $this->link), 
                                 $this->link, $this->db_config['object'], $sql);
 	}
 
