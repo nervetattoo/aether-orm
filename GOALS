@@ -1,0 +1,5 @@
+Be simple and demand nothing!
+1. A tutorial for using AetherORM for all basic usages should be a maximum of 1 A4 page of text including source.
+2. The only configuration required shall be the part thats impossible to go without: database connection information.
+3. After some database credentials are supplied it should be up and running. 1 config file with 6 lines then play.
+4. Dont intrude. AetherORM should take up no more code space than what is absolutely necessary.
