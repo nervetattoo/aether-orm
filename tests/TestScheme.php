@@ -42,12 +42,12 @@ class TestScheme extends PHPUnit_Framework_TestCase {
     );
 
     public function testLoadFromResult() {
-        $scheme = new Scheme('foo', $this->schemeResult);
+        $scheme = new AetherORMScheme('foo', $this->schemeResult);
         $this->assertEquals($scheme->rowCount(), 2);
     }
 
     public function testGetObject() {
-        $scheme = new Scheme('foo', $this->schemeResult);
+        $scheme = new AetherORMScheme('foo', $this->schemeResult);
         $foo = $scheme->getObject();
         $foo->title = 'Hello';
         $foo->nope = 'foo';

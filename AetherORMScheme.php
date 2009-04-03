@@ -7,7 +7,7 @@
  * @author Raymond Julin
  * @package aether-orm
  */
-class Scheme {
+class AetherORMScheme {
     private $table = '';
     private $rows = array();
     private $keys = array();
@@ -46,7 +46,7 @@ class Scheme {
         if ($this->isOk === false)
             throw new Exception("Can't create object from broken scheme");
         // Create the object, ugh
-        $object = new Resource($this->table);
+        $object = new AetherORMResource($this->table);
         foreach ($this->rows as $r) {
             $object->addField($r);
         }

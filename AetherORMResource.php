@@ -7,7 +7,7 @@
  * @author Raymond Julin
  * @package aether-orm
  */
-class Resource {
+class AetherORMResource {
     
     private $data = array();
     private $primaryKey = '';
@@ -31,7 +31,7 @@ class Resource {
     public function addField($data) {
         
         $field = $data['field'];
-        $class = ucfirst($data['type']) . 'Field';
+        $class = 'AetherORM' . ucfirst($data['type']) . 'Field';
         $this->data[$field] = new $class($data['default'], $data['null']);
     }
     
@@ -69,7 +69,7 @@ class Resource {
      */
     public function __set($field, $value) {
         if (isset($this->$field)) {
-            if ($value instanceof Field)
+            if ($value instanceof AetherORMField)
                 $this->data[$field] = $value;
             else
                 $this->data[$field]->value = $value;
@@ -106,7 +106,7 @@ class Resource {
         $this->data[$field]->rem();
     }
 }
-class Field {
+class AetherORMField {
     public function __construct($value, $nullable) {
         if (empty($value) && $nullable)
             $value = null;
@@ -120,8 +120,8 @@ class Field {
             $this->value = '';
     }
 }
-class IntegerField extends Field {
+class AetherORMIntegerField extends AetherORMField {
 }
-class StringField extends Field {
+class AetherORMStringField extends AetherORMField {
 }
 ?>
