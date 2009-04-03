@@ -22,14 +22,30 @@ class AetherORM {
     private $connections = array();
     
     /**
+     * Hold singleton
+     * @var AetherORM
+     */
+    private static $_self = null;
+    
+    /**
      * Constructor, accepts path to config file
      *
      * @param string $configFile
      */
-    public function __construct($configFile=false) {
-        if ($configFile) {
-            $this->initializeConfiguration($configFile);
-        }
+    private function __construct($configFile) {
+        $this->initializeConfiguration($configFile);
+    }
+    
+    /**
+     * Init method as this is a singleton
+     *
+     * @return AetherORM
+     * @param string $configFile
+     */
+    public static function init($configFile) {
+        if (self::$_self == null)
+            self::$_self = new AetherORM($configFile);
+        return self::$_self;
     }
     
     /**

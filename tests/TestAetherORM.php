@@ -17,12 +17,12 @@ class TestAetherORM extends PHPUnit_Framework_TestCase {
         $config = $basePath . "config.php";
         // INclude config, makes $aetherOrmConfig avail
         include($config);
-        $db = new AetherORM($basePath . "config.php");
+        $db = AetherORM::init($basePath . "config.php");
         $this->assertEquals($db->d->whichDatabase(), $aetherOrmConfig['d']['database']);
     }
     
     public function testSetterCrashes() {
-        $db = new AetherORM($basePath . "config.php");
+        $db = AetherORM::init($basePath . "config.php");
         $isOk = false;
         try {
             $db->foo = 'bar';
