@@ -1,11 +1,24 @@
 <?php
+/**
+ * Autoload required modules and stuff
+ *
+ * @param string $name
+ */
+function __autoload($name) {
+    //Derive base path from this file
+    //Support including both the libs and the tests
+    if (strpos($name, 'AetherORMDatabase') !== false)
+        $basePath = dirname(__FILE__) . "/drivers/";
+    else
+        $basePath = dirname(__FILE__) . "/";
 
-$basePath = dirname(__FILE__) . "/";
-require_once($basePath . "drivers/Database.php");
-require_once($basePath . "drivers/Mysql.php");
-require_once($basePath . 'Resource.php');
-require_once($basePath . 'Scheme.php');
-require_once($basePath . 'AetherORMConnection.php');
+    // Final path for file
+    $filePath = $basePath . $name . ".php";
+
+    // Require the file
+    if (!empty($filePath))
+        require_once($filePath);
+}
 
 /**
  *
