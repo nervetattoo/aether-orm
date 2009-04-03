@@ -5,23 +5,14 @@ $basePath = preg_replace('/aether-orm\/tests([\/a-z]*)/', 'aether-orm/', dirname
 require_once($basePath . "AetherORM.php");
 
 /**
- * Test that the scheme class works
+ * Test Row
  *
- * Created: 2009-04-03
+ * Created: 2009-04-04
  * @author Raymond Julin
  * @package aether-orm.test
  */
 
-class TestScheme extends PHPUnit_Framework_TestCase {
-    private $config = array(
-        'connection' => array(
-            'host' => 'localhost',
-            'port' => 3306,
-            'user' => 'root',
-            'pass' => 'root',
-            'database' => 'foo'
-        )
-    );
+class TestAetherORMRow extends PHPUnit_Framework_TestCase {
     private $schemeResult = array(
         array(
             'COLUMN_NAME' => 'id',
@@ -40,17 +31,13 @@ class TestScheme extends PHPUnit_Framework_TestCase {
             'COLUMN_KEY' => ''
         )
     );
-
-    public function testLoadFromResult() {
+    public function testSettersAndGetters() {
         $scheme = new AetherORMScheme('foo', $this->schemeResult);
-        $this->assertEquals($scheme->rowCount(), 2);
-    }
-
-    public function testGetObject() {
-        $scheme = new AetherORMScheme('foo', $this->schemeResult);
-        $foo = $scheme->getObject();
-        $this->assertTrue($foo->hasField('title'));
-        $this->assertTrue($foo->getField('title') instanceof AetherORMStringField);
+        $resource = $scheme->getObject();
+        $row = new AetherORMRow($resource);
+        $row->title = 'foo';
+        var_dump($row);
     }
 }
 ?>
+

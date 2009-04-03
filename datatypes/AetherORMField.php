@@ -8,7 +8,7 @@
  * @package aether-orm
  */
 
-class AetherORMField {
+abstract class AetherORMField {
     
     /**
      * Constructor
@@ -18,23 +18,22 @@ class AetherORMField {
      * @param mixed $value
      * @param boolean $nullable
      */
-    public function __construct($value, $nullable) {
-        if (empty($value) && $nullable)
-            $value = null;
-        $this->value = $value;
+    public function __construct($nullable) {
         $this->nullable = $nullable;
     }
     
     /**
-     * Reset the contextly held value
+     * Parse incoming data according to this data type
+     * TODO Make abstract and move out
      *
-     * @return void
+     * @return mixed
+     * @param mixed $data
      */
-    public function rem() {
-        if ($this->nullable)
-            $this->value = null;
+    public function parse($data) {
+        if (empty($data) AND $this->nullable)
+            return null;
         else
-            $this->value = '';
+            return $data;
     }
 }
 ?>

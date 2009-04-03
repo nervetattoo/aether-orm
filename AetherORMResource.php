@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Resource is the blueprint of a "Model"
+ * Resource is the blueprint of a table/row
  *
  * Created: 2009-04-03
  * @author Raymond Julin
@@ -9,7 +9,7 @@
  */
 class AetherORMResource {
     
-    private $data = array();
+    private $fields = array();
     private $primaryKey = '';
     
     /**
@@ -21,6 +21,19 @@ class AetherORMResource {
         // TODO SHould verify something here? 
         $this->table = $table;
     }
+    
+    /**
+     * Parse some input for a field to make sure it follows any
+     * general validations etc
+     *
+     * @return mixed
+     * @param string $field
+     * @param mixed $value
+     */
+    public function parse($field, $value) {
+        $type = $this->fields[$field];
+        return $type->parse($value);
+    }
 
     /**
      * Add a field to this resource
@@ -29,10 +42,38 @@ class AetherORMResource {
      * @param array $field
      */
     public function addField($data) {
-        
         $field = $data['field'];
         $class = 'AetherORM' . ucfirst($data['type']) . 'Field';
-        $this->data[$field] = new $class($data['default'], $data['null']);
+        $this->fields[$field] = new $class($data['default'], $data['null']);
+    }
+    
+    /**
+     * Check if field exists
+     *
+     * @return boolean
+     * @param string $name
+     */
+    public function hasField($name) {
+        return array_key_exists($name, $this->fields);
+    }
+    
+    /**
+     * Fetch field
+     *
+     * @return AetherORMField
+     * @param string $name
+     */
+    public function getField($name) {
+        return $this->fields[$name];
+    }
+    
+    /**
+     * Return array over all fields
+     *
+     * @return array
+     */
+    public function getFields() {
+        return array_keys($this->fields);
     }
     
     /**
@@ -43,67 +84,6 @@ class AetherORMResource {
      */
     public function setPrimaryKey($key) {
         $this->primaryKey = $key;
-    }
-
-    
-    /**
-     * Save this object.
-     * Used to spit out some text to see proof of concept working
-     *
-     * @return string $stuff
-     */
-    public function save() {
-        $str = "\n";
-        foreach ($this->data as $name => $value) {
-            $str .= "$name -> " . $value->value . "\n";
-        }
-        return $str;
-    }
-    
-    /**
-     * "operator overload" for setters
-     *
-     * @return void
-     * @param string $field
-     * @param mixed $value
-     */
-    public function __set($field, $value) {
-        if (isset($this->$field)) {
-            if ($value instanceof AetherORMField)
-                $this->data[$field] = $value;
-            else
-                $this->data[$field]->value = $value;
-        }
-    }
-    
-    /**
-     * Overload the isset() method
-     *
-     * @return boolean
-     * @param string $field
-     */
-    public function __isset($field) {
-        return isset($this->data[$field]);
-    }
-    
-    /**
-     * Overload getters
-     *
-     * @return mixed
-     * @param string $field
-     */
-    public function __get($field) {
-        return $this->data[$field]->value;
-    }
-    
-    /**
-     * Overload the unset() method
-     *
-     * @return void
-     * @param string $field
-     */
-    public function __unset($field) {
-        $this->data[$field]->rem();
     }
 }
 ?>
