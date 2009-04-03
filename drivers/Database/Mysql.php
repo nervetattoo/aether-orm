@@ -9,7 +9,7 @@
  * @copyright  (c) 2007-2008 Kohana Team
  * @license    http://kohanaphp.com/license.html
  */
-class AetherDatabaseMysqlDriver extends AetherDatabaseDriver {
+class AetherORMDatabaseMysqlDriver extends AetherORMDatabaseDriver {
 
 	/**
 	 * Database connection link
@@ -92,7 +92,7 @@ class AetherDatabaseMysqlDriver extends AetherDatabaseDriver {
 			if (!isset(self::$query_cache[$hash])) {
 				// Set the cached object
 				self::$query_cache[$hash] = 
-                    new AetherMysqlResult(mysql_query($sql, $this->link), 
+                    new AetherORMMysqlResult(mysql_query($sql, $this->link), 
                                      $this->link, $this->db_config['object'], $sql);
 			}
 			else {
@@ -104,7 +104,7 @@ class AetherDatabaseMysqlDriver extends AetherDatabaseDriver {
 			return self::$query_cache[$hash];
 		}
 
-		return new AetherMysqlResult(mysql_query($sql, $this->link), 
+		return new AetherORMMysqlResult(mysql_query($sql, $this->link), 
                                 $this->link, $this->db_config['object'], $sql);
 	}
 
@@ -302,7 +302,7 @@ class AetherDatabaseMysqlDriver extends AetherDatabaseDriver {
 		}
 
 		if (!isset($tables[$table]))
-			throw new Kohana_Database_Exception('database.table_not_found', $table);
+			throw new AetherORMDatabaseException('database.table_not_found', $table);
 
 		return $tables[$table];
 	}
@@ -339,7 +339,7 @@ class AetherDatabaseMysqlDriver extends AetherDatabaseDriver {
 /**
  * MySQL Result
  */
-class AetherMysqlResult extends AetherDatabaseResult {
+class AetherORMMysqlResult extends AetherORMDatabaseResult {
 
 	// Fetch function and return type
 	protected $fetch_type  = 'mysql_fetch_object';
@@ -366,7 +366,7 @@ class AetherMysqlResult extends AetherDatabaseResult {
 		elseif (is_bool($result)) {
 			if ($result == FALSE) {
 				// SQL error
-				throw new AetherDatabaseException(
+				throw new AetherORMDatabaseException(
                     'database.error', mysql_error($link).' - '.$sql);
 			}
 			else {

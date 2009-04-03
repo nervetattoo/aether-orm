@@ -6,7 +6,7 @@
  * @copyright  (c) 2007-2008 Kohana Team
  * @license    http://kohanaphp.com/license.html
  */
-abstract class AetherDatabaseDriver {
+abstract class AetherORMDatabaseDriver {
 
 	static $query_cache;
 
@@ -62,7 +62,7 @@ abstract class AetherDatabaseDriver {
 	 * @param  string  character set to use
 	 */
 	public function set_charset($charset) {
-		throw new AetherDatabaseException('database.not_implemented', __FUNCTION__);
+		throw new AetherORMDatabaseException('database.not_implemented', __FUNCTION__);
 	}
 
 	/**
@@ -186,7 +186,7 @@ abstract class AetherDatabaseDriver {
 	 * @return  string
 	 */
 	public function regex($field, $match, $type, $num_regexs) {
-		throw new AetherDatabaseException('database.not_implemented', __FUNCTION__);
+		throw new AetherORMDatabaseException('database.not_implemented', __FUNCTION__);
 	}
 
 	/**
@@ -199,7 +199,7 @@ abstract class AetherDatabaseDriver {
 	 * @return  string
 	 */
 	public function notregex($field, $match, $type, $num_regexs) {
-		throw new AetherDatabaseException('database.not_implemented', __FUNCTION__);
+		throw new AetherORMDatabaseException('database.not_implemented', __FUNCTION__);
 	}
 
 	/**
@@ -229,7 +229,7 @@ abstract class AetherDatabaseDriver {
 	 * @return  string
 	 */
 	public function merge($table, $keys, $values) {
-		throw new AetherDatabaseException('database.not_implemented', __FUNCTION__);
+		throw new AetherORMDatabaseException('database.not_implemented', __FUNCTION__);
 	}
 
 	/**
@@ -248,7 +248,7 @@ abstract class AetherDatabaseDriver {
 	 * @return  Database_Stmt
 	 */
 	public function stmt_prepare($sql = '') {
-		throw new AetherDatabaseException('database.not_implemented', __FUNCTION__);
+		throw new AetherORMDatabaseException('database.not_implemented', __FUNCTION__);
 	}
 
 	/**
@@ -426,7 +426,7 @@ abstract class AetherDatabaseDriver {
  * Database_Result
  *
  */
-abstract class AetherDatabaseResult implements ArrayAccess, Iterator, Countable {
+abstract class AetherORMDatabaseResult implements ArrayAccess, Iterator, Countable {
 
 	// Result resource, insert id, and SQL
 	protected $result;
@@ -529,7 +529,7 @@ abstract class AetherDatabaseResult implements ArrayAccess, Iterator, Countable 
 	 * @throws  Kohana_Database_Exception
 	 */
 	final public function offsetSet($offset, $value) {
-		throw new AetherDatabaseException('database.result_read_only');
+		throw new AetherORMDatabaseException('database.result_read_only');
 	}
 
 	/**
@@ -538,7 +538,7 @@ abstract class AetherDatabaseResult implements ArrayAccess, Iterator, Countable 
 	 * @throws  Kohana_Database_Exception
 	 */
 	final public function offsetUnset($offset) {
-		throw new AetherDatabaseException('database.result_read_only');
+		throw new AetherORMDatabaseException('database.result_read_only');
 	}
 
 	/**
