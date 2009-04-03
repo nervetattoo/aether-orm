@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Default Resource
+ * Resource is the blueprint of a "Model"
  *
  * Created: 2009-04-03
  * @author Raymond Julin
@@ -105,23 +105,5 @@ class AetherORMResource {
     public function __unset($field) {
         $this->data[$field]->rem();
     }
-}
-class AetherORMField {
-    public function __construct($value, $nullable) {
-        if (empty($value) && $nullable)
-            $value = null;
-        $this->value = $value;
-        $this->nullable = $nullable;
-    }
-    public function rem() {
-        if ($this->nullable)
-            $this->value = null;
-        else
-            $this->value = '';
-    }
-}
-class AetherORMIntegerField extends AetherORMField {
-}
-class AetherORMStringField extends AetherORMField {
 }
 ?>

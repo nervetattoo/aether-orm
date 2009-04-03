@@ -9,6 +9,8 @@ function __autoload($name) {
     //Support including both the libs and the tests
     if (strpos($name, 'AetherORMDatabase') !== false)
         $basePath = dirname(__FILE__) . "/drivers/";
+    elseif (strpos($name, 'Field') !== false)
+        $basePath = dirname(__FILE__) . "/datatypes/";
     else
         $basePath = dirname(__FILE__) . "/";
 
