@@ -406,7 +406,7 @@ abstract class AetherDatabaseDriver {
 		}
 
         // FIX
-		Kohana::log('debug', 'Database cache cleared: '.get_class($this));
+		//Kohana::log('debug', 'Database cache cleared: '.get_class($this));
 	}
 
 	/**
