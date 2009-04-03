@@ -2,9 +2,7 @@
 
 require_once('PHPUnit/Framework.php');
 $basePath = preg_replace('/aether-orm\/tests([\/a-z]*)/', 'aether-orm/', dirname(__FILE__)); 
-require_once($basePath . "Scheme.php");
-require_once($basePath . "drivers/Database.php");
-require_once($basePath . "drivers/Database/Mysql.php");
+require_once($basePath . "AetherORM.php");
 
 /**
  * Test that the scheme class works
@@ -52,8 +50,11 @@ class TestScheme extends PHPUnit_Framework_TestCase {
         $scheme = new Scheme('foo', $this->schemeResult);
         $foo = $scheme->getObject();
         $foo->title = 'Hello';
+        $foo->nope = 'foo';
         $tmp = $foo->save();
-        echo $tmp;
+        $this->assertEquals($foo->title, 'Hello');
+        $this->assertNull($foo->nope);
+        //echo $tmp;
     }
 }
 ?>

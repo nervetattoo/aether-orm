@@ -1,8 +1,4 @@
 <?php
-
-$basePath = dirname(__FILE__) . "/";
-require_once($basePath . 'Resource.php');
-
 /**
  * Table scheme helper
  * Helps with transforming a scheme over to a php object

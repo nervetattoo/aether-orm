@@ -70,9 +70,9 @@ class Resource {
     public function __set($field, $value) {
         if (isset($this->$field)) {
             if ($value instanceof Field)
-                $this->$field = $value;
+                $this->data[$field] = $value;
             else
-                $this->$field->value = $value;
+                $this->data[$field]->value = $value;
         }
     }
     
@@ -93,7 +93,7 @@ class Resource {
      * @param string $field
      */
     public function __get($field) {
-        return $this->data[$field];
+        return $this->data[$field]->value;
     }
     
     /**
