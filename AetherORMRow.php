@@ -16,23 +16,38 @@ class AetherORMRow {
      * Construct row
      *
      * @param AetherORMResource $resource
+     *   This is the blueprint of the rows details (or tables if you like).
+     *   In other words the Resource knows what fields this Row/Model should
+     *   support.
      * @param array $data
+     *   Optional, this can contain the data for this row if its an existing
+     *   Row being loaded
      */
     public function __construct(AetherORMResource $resource, $data=array()) {
-        // Initialize internal data array from $resource
         $this->_resource = $resource;
+        /**
+         * getFields() returns all table scheme fields (id, title and such)
+         * _data needs to have these fields set to an empty value
+         * (unless $data provided) so __set() will work later on
+         * This is how doing $row->nonExistantField = 'foo' is disabled
+         */
         foreach ($resource->getFields() as $key)
             $this->_data[$key] = '';
     }
 
     /**
-     * "operator overload" for setters
+     * Called when $row->field = 'value'; assignment happens
      *
      * @return void
      * @param string $field
      * @param mixed $value
      */
     public function __set($field, $value) {
+        /**
+         * This uses Resource (scheme) to parse the input.
+         * parse() can for example ensure that NULL restrictions
+         * are looked after
+         */
         if (isset($this->_data[$field]))
             $this->_data[$field] = $this->_resource->parse($field,$value);
     }
@@ -48,7 +63,7 @@ class AetherORMRow {
     }
     
     /**
-     * Overload getters
+     * Called when $foo = $row->field; is called
      *
      * @return mixed
      * @param string $field

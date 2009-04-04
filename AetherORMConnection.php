@@ -1,13 +1,25 @@
 <?php
-
 /**
+ * Holds a connection to a database (as set in configuration file)
+ * This selects the correct database driver and initializes it and
+ * lets you run queries through it
  *
  * Created: 2009-04-03
  * @author Raymond Julin
  * @package aether-orm
  */
 class AetherORMConnection {
+    
+    /**
+     * Connection object
+     * @var AetherORMDatabaseDriver
+     */
     private $conn;
+    
+    /**
+     * Configuration that this connection was built from
+     * @var array
+     */
     private $config;
     
     /**

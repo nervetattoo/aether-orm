@@ -23,7 +23,16 @@ function __autoload($name) {
 }
 
 /**
- *
+ * Facade for ORM
+ * Handles configuration reading aswell as keeping
+ * track of all connections. Its a singleton to ensure
+ * efficiency without polluting the global scope.
+ * Usage:
+ *<code>
+ *$db = AetherORM::init($configFile);
+ *$db->test->Table(1);
+ *</code>
+ * 
  * Created: 2009-04-03
  * @author Raymond Julin
  * @package aether-orm
