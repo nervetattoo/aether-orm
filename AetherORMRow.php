@@ -31,8 +31,11 @@ class AetherORMRow {
          * (unless $data provided) so __set() will work later on
          * This is how doing $row->nonExistantField = 'foo' is disabled
          */
-        foreach ($resource->getFields() as $key)
+        foreach ($resource->getFields() as $key) {
             $this->_data[$key] = '';
+            if (isset($data[$key]))
+                $this->$key = $data[$key];
+        }
     }
 
     /**
@@ -69,7 +72,7 @@ class AetherORMRow {
      * @param string $field
      */
     public function __get($field) {
-        return $this->_data[$field]->value;
+        return $this->_data[$field];
     }
     
     /**

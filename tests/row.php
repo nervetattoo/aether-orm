@@ -36,7 +36,17 @@ class TestAetherORMRow extends PHPUnit_Framework_TestCase {
         $resource = $scheme->getObject();
         $row = new AetherORMRow($resource);
         $row->title = 'foo';
-        var_dump($row);
+        $row->nono = 'foo';
+        $this->assertEquals($row->title, 'foo');
+        $this->assertEquals($row->nono, null);
+    }
+
+    public function testLoadWithData() {
+        $scheme = new AetherORMScheme('foo', $this->schemeResult);
+        $resource = $scheme->getObject();
+        $row = new AetherORMRow($resource,array('title'=>'foo','id'=>1));
+        $this->assertEquals('foo', $row->title);
+        $this->assertEquals(1, $row->id);
     }
 }
 ?>
