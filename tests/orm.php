@@ -13,16 +13,19 @@ require_once($basePath . "AetherORM.php");
  */
 
 class TestAetherORM extends PHPUnit_Framework_TestCase {
+    public function setUp() {
+        $basePath = preg_replace('/aether-orm\/tests([\/a-z]*)/', 'aether-orm/', dirname(__FILE__)); 
+        $this->config = $basePath . "config.php";
+    }
     public function testConfigLoads() {
-        $config = $basePath . "config.php";
         // INclude config, makes $aetherOrmConfig avail
-        include($config);
-        $db = AetherORM::init($basePath . "config.php");
+        include($this->config);
+        $db = AetherORM::init($this->config);
         $this->assertEquals($db->d->whichDatabase(), $aetherOrmConfig['d']['database']);
     }
     
     public function testSetterCrashes() {
-        $db = AetherORM::init($basePath . "config.php");
+        $db = AetherORM::init($this->config);
         $isOk = false;
         try {
             $db->foo = 'bar';
