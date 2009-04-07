@@ -52,6 +52,12 @@ class AetherORM {
     private static $_self = null;
     
     /**
+     * Path to configfile
+     * @var string
+     */
+    public static $_config = false;
+    
+    /**
      * Constructor, accepts path to config file
      *
      * @param string $configFile
@@ -66,7 +72,13 @@ class AetherORM {
      * @return AetherORM
      * @param string $configFile
      */
-    public static function init($configFile) {
+    public static function init($configFile=false) {
+        if ($configFile == false) {
+            if (AetherORM::$_config !== false)
+                $configFile = AetherORM::$_config;
+            else
+                throw new Exception("No config file specified");
+        }
         if (self::$_self == null)
             self::$_self = new AetherORM($configFile);
         return self::$_self;

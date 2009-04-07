@@ -14,14 +14,38 @@ require_once($basePath . "AetherORM.php");
 
 class TestAetherORM extends PHPUnit_Framework_TestCase {
     public function setUp() {
-        $basePath = preg_replace('/aether-orm\/tests([\/a-z]*)/', 'aether-orm/', dirname(__FILE__)); 
+        $basePath = preg_replace(
+            '/aether-orm\/tests([\/a-z]*)/', 
+            'aether-orm/', dirname(__FILE__)); 
         $this->config = $basePath . "config.php";
     }
     public function testConfigLoads() {
-        // INclude config, makes $aetherOrmConfig avail
+        // Include config, makes $aetherOrmConfig avail
         include($this->config);
         $db = AetherORM::init($this->config);
-        $this->assertEquals($db->d->whichDatabase(), $aetherOrmConfig['d']['database']);
+        $this->assertEquals(
+            $db->d->whichDatabase(), 
+            $aetherOrmConfig['d']['database']);
+    }
+    
+    public function testLoadWithConfigPreSet() {
+        AetherORM::$_config = $this->config;
+        $db = AetherORM::init();
+        $this->assertTrue($db instanceof AetherORM);
+    }
+
+    public function testLoadWithoutConfig() {
+        $worked = true;
+        // Need to force it to be false
+        AetherORM::$_config = false;
+        try {
+            $db = AetherORM::init();
+        }
+        catch (Exception $e) {
+            $worked = false;
+        }
+        if ($worked)
+            $this->fail("Load without config file did not throw exception");
     }
     
     public function testSetterCrashes() {
