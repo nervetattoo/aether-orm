@@ -13,15 +13,6 @@ require_once($basePath . "AetherORM.php");
  */
 
 class TestScheme extends PHPUnit_Framework_TestCase {
-    private $config = array(
-        'connection' => array(
-            'host' => 'localhost',
-            'port' => 3306,
-            'user' => 'root',
-            'pass' => 'root',
-            'database' => 'foo'
-        )
-    );
     private $schemeResult = array(
         array(
             'COLUMN_NAME' => 'id',
@@ -40,6 +31,19 @@ class TestScheme extends PHPUnit_Framework_TestCase {
             'COLUMN_KEY' => ''
         )
     );
+    private $kohanaScheme = array(
+        'id' => array(
+            'type' => 'int',
+            'max' => 2147483647,
+            'unsigned' => '',
+            'sequenced' => 1
+        ),
+        'title' => array(
+            'type' => 'string',
+            'length' => 64,
+            'null' => 1
+        )
+    );
 
     public function testLoadFromResult() {
         $scheme = new AetherORMScheme('foo', $this->schemeResult);
@@ -48,6 +52,13 @@ class TestScheme extends PHPUnit_Framework_TestCase {
 
     public function testGetObject() {
         $scheme = new AetherORMScheme('foo', $this->schemeResult);
+        $foo = $scheme->getObject();
+        $this->assertTrue($foo->hasField('title'));
+        $this->assertTrue($foo->getField('title') instanceof AetherORMStringField);
+    }
+
+    public function testLoadKohanaScheme() {
+        $scheme = new AetherORMScheme('foo', $this->kohanaScheme);
         $foo = $scheme->getObject();
         $this->assertTrue($foo->hasField('title'));
         $this->assertTrue($foo->getField('title') instanceof AetherORMStringField);

@@ -95,9 +95,15 @@ class AetherORMScheme {
         $expected = array('COLUMN_NAME','DATA_TYPE','IS_NULLABLE',
             'COLUMN_DEFAULT', 'EXTRA', 'COLUMN_KEY');
         $this->fields = array();
-        foreach ($data as $col) {
-            // Verify that we have the required data
-            if (count(array_diff(array_keys($col), $expected) == 0)) {
+        foreach ($data as $key => $col) {
+            if (is_string($key)) {
+                $this->fields[] = array(
+                    'field' => $key,
+                    'type' => $this->parseType($col['type']),
+                    'null' => $col['null'] == 1 ? true : false
+                );
+            }
+            elseif (count(array_diff(array_keys($col), $expected) == 0)) {
                 /**
                  * Scheme information from sql is to verbose,
                  * compact it for easier code later on
@@ -137,6 +143,7 @@ class AetherORMScheme {
             case 'varchar':
             case 'text':
             case 'char':
+            case 'string':
                 return 'string';
             case 'tinyint':
             case 'smallint':
