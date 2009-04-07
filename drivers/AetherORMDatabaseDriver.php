@@ -349,8 +349,7 @@ abstract class AetherORMDatabaseDriver {
 
 		if ($sql_types === NULL) {
 			// Load SQL data types
-            // FIX
-			$sql_types = Kohana::config('sql_types');
+			$sql_types = AetherORMDatabaseTypes::get();
 		}
 
 		$str = strtolower(trim($str));
@@ -526,7 +525,7 @@ abstract class AetherORMDatabaseResult implements ArrayAccess, Iterator, Countab
 	/**
 	 * ArrayAccess: offsetSet
 	 *
-	 * @throws  Kohana_Database_Exception
+	 * @throws  AetherORMDatabaseException
 	 */
 	final public function offsetSet($offset, $value) {
 		throw new AetherORMDatabaseException('database.result_read_only');
@@ -535,7 +534,7 @@ abstract class AetherORMDatabaseResult implements ArrayAccess, Iterator, Countab
 	/**
 	 * ArrayAccess: offsetUnset
 	 *
-	 * @throws  Kohana_Database_Exception
+	 * @throws  AetherORMDatabaseException
 	 */
 	final public function offsetUnset($offset) {
 		throw new AetherORMDatabaseException('database.result_read_only');

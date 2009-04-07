@@ -402,8 +402,7 @@ class AetherORMMysqlResult extends AetherORMDatabaseResult {
 		// autoloading is disabled to save a lot of stupid overhead.
         // FIX
 		if ($this->fetch_type == 'mysql_fetch_object' AND $object === TRUE) {
-			$this->return_type = 
-                (is_string($type) && Kohana::auto_load($type)) ? $type : 'stdClass';
+			$this->return_type = 'stdClass';
 		}
 		else {
 			$this->return_type = $type;
@@ -427,8 +426,7 @@ class AetherORMMysqlResult extends AetherORMDatabaseResult {
 				$fetch = 'mysql_fetch_object';
 
                 // FIX
-				$type = (is_string($type) && Kohana::auto_load($type)) ?
-                    $type : 'stdClass';
+                $type = 'stdClass';
 			}
 			else {
 				$fetch = 'mysql_fetch_array';
@@ -439,10 +437,7 @@ class AetherORMMysqlResult extends AetherORMDatabaseResult {
 			$fetch = $this->fetch_type;
 
 			if ($fetch == 'mysql_fetch_object') {
-				$type = 
-                    (is_string($this->return_type) && 
-                     Kohana::auto_load($this->return_type)) ? 
-                    $this->return_type : 'stdClass';
+                $type = 'stdClass';
 			}
 		}
 
