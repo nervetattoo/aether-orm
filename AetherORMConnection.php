@@ -51,5 +51,43 @@ class AetherORMConnection {
     public function whichDatabase() {
         return $this->config['database'];
     }
+    
+    /**
+     * Willy wonkas magic little factory.
+     * Every method called unto Connection goes here for parsing
+     * and its then delegated on to a table
+     *
+     * @return AetherORMTable
+     * @param string $name
+     * @param array $args
+     */
+    public function __call($func, $args) {
+        $table = strtolower($func);
+        $db = $this->config['database'];
+        if (count($args) == 0) {
+            // No args means get the whole table object
+            // TODO Resource creation needs fix
+            $resource = new AetherORMResource($table,array());
+            $result = new AetherORMTable($resource, $db, $table);
+        }
+        elseif (count($args) == 1 AND is_numeric($args[0])) {
+            /**
+             * Special case for only one integer arg.
+             * This means we want to select by primary key
+             */
+            $primaryKey = $args[0];
+            /**
+             * TODO
+             * 1. Ask IM if Row object exists
+             * 2. Ask identity map for scheme for table
+             * 3. Load scheme (here or IM?)
+             * 4. Load Row based on scheme
+             */
+        }
+        else {
+            // TODO Magic!
+        }
+        return $result;
+    }
 }
 ?>
