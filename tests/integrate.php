@@ -25,6 +25,13 @@ class TestAetherORMIntegrates extends PHPUnit_Framework_TestCase {
         // Fetch a row
         $foo = $orm['d']->Foo(1);
         $this->assertEquals(1, $foo->id);
+        // Use criteria based search
+        $res = $orm['d']->Foo("id = 1");
+        $this->assertEquals(1, $res[0]->id);
+        $this->assertTrue(count($res) == 1);
+
+        $res = $orm['d']->Foo("title = Hei");
+        $this->assertEquals(1, $res[0]->id);
     }
 }
 ?>

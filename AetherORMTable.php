@@ -87,5 +87,28 @@ class AetherORMTable {
             $data[$name] = $value;
         return new AetherORMRow($this->_resource, $data);
     }
+
+    /**
+     * Return a set of rows from sql
+     *
+     * @return array
+     * @param int $key
+     */
+    public function bySql($sql) {
+        if (!$this->getDb()) {
+            throw new AetherORMNotInitializedException(
+                "AetherORM is not correctly initialized");
+            return 0;
+        }
+        $results = $this->_db->query($sql)->as_array();
+        $rows = array();
+        foreach ($results as $res) {
+            $data = array();
+            foreach ($res as $name => $value)
+                $data[$name] = $value;
+            $rows[] = new AetherORMRow($this->_resource, $data);
+        }
+        return $rows;
+    }
 }
 ?>

@@ -106,6 +106,15 @@ class AetherORMConnection {
         }
         else {
             // TODO Magic!
+            $criterias = array();
+            $where = "WHERE ";
+            foreach ($args as $argument) {
+                $c = new AetherORMCriteria($argument);
+                $where .= $c->getSql() . " AND";
+                $criterias[] = $c;
+            }
+            $where = substr($where, 0, -4);
+            $result = $table->bySql("SELECT * FROM $tableName $where");
         }
         return $result;
     }
