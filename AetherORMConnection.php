@@ -64,6 +64,11 @@ class AetherORMConnection {
     public function __call($func, $args) {
         $table = strtolower($func);
         $db = $this->config['database'];
+        print_r($this->conn->list_fields('foo'));
+        /**
+         * Get scheme
+         */
+
         if (count($args) == 0) {
             // No args means get the whole table object
             // TODO Resource creation needs fix
@@ -88,6 +93,16 @@ class AetherORMConnection {
             // TODO Magic!
         }
         return $result;
+    }
+    
+    /**
+     * Get the actual driver
+     *
+     * @access public
+     * @return AetherORMDatabaseDriver
+     */
+    public function getDriver() {
+        return $this->conn;
     }
 }
 ?>

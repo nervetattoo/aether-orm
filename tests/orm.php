@@ -26,6 +26,10 @@ class TestAetherORM extends PHPUnit_Framework_TestCase {
         $this->assertEquals(
             $db->d->whichDatabase(), 
             $aetherOrmConfig['d']['database']);
+        // Test array access interface aswell
+        $this->assertEquals(
+            $db['d']->whichDatabase(), 
+            $aetherOrmConfig['d']['database']);
     }
     
     public function testLoadWithConfigPreSet() {

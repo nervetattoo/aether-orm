@@ -22,6 +22,10 @@ function __autoload($name) {
         require_once($filePath);
 }
 
+class AetherORMException extends Exception {}
+class AetherORMMissingConfigException extends AetherORMException {}
+class AetherORMNotInitializedException extends AetherORMException {}
+
 /**
  * Facade for ORM
  * Handles configuration reading aswell as keeping
@@ -37,7 +41,7 @@ function __autoload($name) {
  * @author Raymond Julin
  * @package aether-orm
  */
-class AetherORM {
+class AetherORM implements ArrayAccess {
     
     /**
      * Connections
@@ -77,7 +81,7 @@ class AetherORM {
             if (AetherORM::$_config !== false)
                 $configFile = AetherORM::$_config;
             else
-                throw new Exception("No config file specified");
+                throw new AetherORMMissingConfigException("No config file specified");
         }
         if (self::$_self == null)
             self::$_self = new AetherORM($configFile);
@@ -112,6 +116,7 @@ class AetherORM {
     public function __get($name) {
         if (isset($this->connections[$name]))
             return $this->connections[$name];
+        throw new Exception("No such connection exists");
         // TODO Throw exception
     }
     
@@ -126,6 +131,47 @@ class AetherORM {
         // TODO Correct exception type
         throw new Exception(
             "Illegal operation, trying to set AetherORM::$name = $value");
+    }
+    
+    /**
+     * Offset exists?
+     *
+     * @return boolean
+     * @param string $offset
+     */
+    public function offsetExists($offset) {
+        return isset($this->connections[$name]);
+    }
+    
+    /**
+     * Get offset
+     *
+     * @return AetherORMConnection
+     * @param string $offset
+     */
+    public function offsetGet($offset) {
+        return $this->$offset;
+    }
+    
+    /**
+     * Setting offset is disallowed
+     *
+     * @return void
+     * @param string $offset
+     * @param mixed $val
+     */
+    public function offsetSet($offset,$val) {
+        return false;
+    }
+    
+    /**
+     * Unset offset is disallowed
+     *
+     * @return void
+     * @param string $offset
+     */
+    public function offsetUnset($offset) {
+        return false;
     }
 }
 ?>
