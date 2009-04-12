@@ -44,6 +44,9 @@ class AetherORMTable {
             catch (AetherORMMissingConfigException $e) {
                 return false;
             }
+            catch (Exception $e) {
+                throw $e;
+            }
         }
         return true;
     }
@@ -63,6 +66,26 @@ class AetherORMTable {
         $sql = "SELECT COUNT(*) AS cnt FROM {$this->_table}";
         $result = $this->_db->query($sql)->as_array();
         return (int) $result[0]['cnt'];
+    }
+    
+    /**
+     * Return row by id (primary key)
+     *
+     * @return AetherORMRow
+     * @param int $key
+     */
+    public function byId($key) {
+        if (!$this->getDb()) {
+            throw new AetherORMNotInitializedException(
+                "AetherORM is not correctly initialized");
+            return 0;
+        }
+        $sql = "SELECT * FROM {$this->_table} WHERE id = $key LIMIT 1";
+        $result = $this->_db->query($sql)->as_array();
+        $data = array();
+        foreach ($result[0] as $name => $value)
+            $data[$name] = $value;
+        return new AetherORMRow($this->_resource, $data);
     }
 }
 ?>

@@ -23,6 +23,13 @@ class AetherORMConnection {
     private $config;
     
     /**
+     * Stash of schemes/resources?
+     * TODO move to identity map
+     * @var array
+     */
+    private $schemes = array();
+    
+    /**
      * Create connection
      *
      * @param array $config
@@ -62,17 +69,25 @@ class AetherORMConnection {
      * @param array $args
      */
     public function __call($func, $args) {
-        $table = strtolower($func);
-        $db = $this->config['database'];
+        $tableName = strtolower($func);
+        $name = $this->config['name'];
         /**
          * Get scheme
          */
+        if (!array_key_exists($tableName, $this->schemes)) {
+            $schemeData = $this->conn->list_fields($tableName);
+            $this->schemes[$tableName] = 
+                new AetherORMScheme($tableName, $schemeData);
+
+        }
+        // TODO Resource creation needs fix. Load data!
+        $resource = $this->schemes[$tableName]->getObject();
+        //$resource = new AetherORMResource($tableName,array());
+        $table = new AetherORMTable($resource, $name, $tableName);
 
         if (count($args) == 0) {
             // No args means get the whole table object
-            // TODO Resource creation needs fix
-            $resource = new AetherORMResource($table,array());
-            $result = new AetherORMTable($resource, $db, $table);
+            $result = $table;
         }
         elseif (count($args) == 1 AND is_numeric($args[0])) {
             /**
@@ -80,6 +95,7 @@ class AetherORMConnection {
              * This means we want to select by primary key
              */
             $primaryKey = $args[0];
+            $result = $table->byId($primaryKey);
             /**
              * TODO
              * 1. Ask IM if Row object exists

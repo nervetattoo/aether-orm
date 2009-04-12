@@ -98,6 +98,7 @@ class AetherORM implements ArrayAccess {
         if (file_exists($file)) {
             include($file);
             foreach ($aetherOrmConfig as $name => $config) {
+                $config['name'] = $name;
                 $this->connections[$name] = new AetherORMConnection($config);
             }
         }
@@ -116,7 +117,7 @@ class AetherORM implements ArrayAccess {
     public function __get($name) {
         if (isset($this->connections[$name]))
             return $this->connections[$name];
-        throw new Exception("No such connection exists");
+        throw new Exception("No such connection exists [$name]");
         // TODO Throw exception
     }
     
