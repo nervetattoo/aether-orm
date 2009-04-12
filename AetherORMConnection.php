@@ -64,7 +64,6 @@ class AetherORMConnection {
     public function __call($func, $args) {
         $table = strtolower($func);
         $db = $this->config['database'];
-        print_r($this->conn->list_fields('foo'));
         /**
          * Get scheme
          */
