@@ -141,7 +141,7 @@ class AetherORM implements ArrayAccess {
      * @param string $offset
      */
     public function offsetExists($offset) {
-        return isset($this->connections[$name]);
+        return isset($this->connections[$offset]);
     }
     
     /**

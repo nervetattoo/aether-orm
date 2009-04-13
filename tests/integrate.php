@@ -18,9 +18,9 @@ class TestAetherORMIntegrates extends PHPUnit_Framework_TestCase {
             '/aether-orm\/tests([\/a-z]*)/', 
             'aether-orm/', dirname(__FILE__)); 
         $this->config = $basePath . "config.php";
+        AetherORM::$_config = $this->config;
     }
     public function testRow() {
-        AetherORM::$_config = $this->config;
         $orm = AetherORM::init();
         // Fetch a row
         $foo = $orm['d']->Foo(1);
@@ -32,6 +32,14 @@ class TestAetherORMIntegrates extends PHPUnit_Framework_TestCase {
 
         $res = $orm['d']->Foo("title = Hei");
         $this->assertEquals(1, $res[0]->id);
+        $this->assertTrue($res instanceof AetherORMSet);
+    }
+
+    public function testSet() {
+        $orm = AetherORM::init();
+        
+        $foos = $orm['d']->Foo("id >= 1");
+        $this->assertTrue(count($foos) > 1);
     }
 }
 ?>

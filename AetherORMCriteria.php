@@ -36,8 +36,8 @@ class AetherORMCriteria {
             case '!=':
             case '>':
             case '<':
-            case '=>':
-            case '=<':
+            case '>=':
+            case '<=':
                 $sql .= $this->operand;
                 break;
             case '~=':

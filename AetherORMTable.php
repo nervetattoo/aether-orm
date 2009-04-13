@@ -101,7 +101,7 @@ class AetherORMTable {
             return 0;
         }
         $results = $this->_db->query($sql)->as_array();
-        $rows = array();
+        $rows = new AetherORMSet;
         foreach ($results as $res) {
             $data = array();
             foreach ($res as $name => $value)

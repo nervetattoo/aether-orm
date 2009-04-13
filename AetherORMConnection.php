@@ -105,7 +105,11 @@ class AetherORMConnection {
              */
         }
         else {
-            // TODO Magic!
+            /**
+             * Regular criteria based search.
+             * "Criteria" includes everything not being a full table
+             * fetch or a single row fetch by primary key
+             */
             $criterias = array();
             $where = "WHERE ";
             foreach ($args as $argument) {
@@ -113,7 +117,13 @@ class AetherORMConnection {
                 $where .= $c->getSql() . " AND";
                 $criterias[] = $c;
             }
+            // Remove the last AND
             $where = substr($where, 0, -4);
+            /**
+             * TODO THis should go through a query builder, not as
+             * directly typed SQL
+             * TODO Support for OR-based WHERE clauses?
+             */
             $result = $table->bySql("SELECT * FROM $tableName $where");
         }
         return $result;
