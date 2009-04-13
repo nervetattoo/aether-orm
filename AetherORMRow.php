@@ -10,6 +10,7 @@
 class AetherORMRow {
 
     private $_data = array();
+    private $_changed = array();
     private $_resource = null;
     
     /**
@@ -51,8 +52,11 @@ class AetherORMRow {
          * parse() can for example ensure that NULL restrictions
          * are looked after
          */
-        if (isset($this->_data[$field]))
+        if (isset($this->_data[$field])) {
             $this->_data[$field] = $this->_resource->parse($field,$value);
+            $this->_changed[] = $field;
+            $this->_changed = array_unique($this->_changed);
+        }
     }
     
     /**
@@ -92,11 +96,12 @@ class AetherORMRow {
      * @return string $stuff
      */
     public function save() {
-        $str = "\n";
-        foreach ($this->_data as $name => $value) {
-            $str .= "$name -> " . $value . "\n";
+        if (count($this->_changed) > 0) {
+            $table = $this->_resource->getTable();
+            $data = array();
+            foreach ($this->_changed as $field)
+                $data[$field] = $this->_data[$field];
         }
-        return $str;
     }
 }
 ?>

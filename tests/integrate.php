@@ -33,6 +33,15 @@ class TestAetherORMIntegrates extends PHPUnit_Framework_TestCase {
         $res = $orm['d']->Foo("title = Hei");
         $this->assertEquals(1, $res[0]->id);
         $this->assertTrue($res instanceof AetherORMSet);
+
+        // Save!
+        $foo = $orm['d']->Foo(2);
+        $foo->title = 'hello world';
+        //$foo->save();
+        // Reload and test
+        // TODO Change to use ->reload() as caching would come at play
+        $foo2 = $orm['d']->Foo(2);
+        //$this->assertEquals($foo->title, $foo2->title);
     }
 
     public function testSet() {

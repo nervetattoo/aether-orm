@@ -11,6 +11,7 @@ class AetherORMResource {
     
     private $fields = array();
     private $primaryKey = '';
+    private $_table = '';
     
     /**
      * Constructor
@@ -19,7 +20,16 @@ class AetherORMResource {
      */
     public function __construct($table) {
         // TODO SHould verify something here? 
-        $this->table = $table;
+        $this->_table = $table;
+    }
+    
+    /**
+     * Return what table resource belongs to
+     *
+     * @return string
+     */
+    public function getTable() {
+        return $this->_table;
     }
     
     /**
